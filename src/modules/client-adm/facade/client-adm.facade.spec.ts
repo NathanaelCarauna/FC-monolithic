@@ -4,6 +4,7 @@ import ClientRepository from "../repository/client.respository";
 import AddClientUsecase from "../usecase/add-client/add-client.usecase";
 import ClientAdmFacade from "./client-adm.facade";
 import FindClientUsecase from "../usecase/find-client/find-client.usecase";
+import ClientAdmFacadeFactory from "../factory/client-adm.facade.facatory";
 
 describe("Client-adm facade test", () => {
     let sequelize: Sequelize;
@@ -24,12 +25,7 @@ describe("Client-adm facade test", () => {
     })
 
     it("Should create a client", async () => {
-        const repository = new ClientRepository();
-        const addUsecase = new AddClientUsecase(repository);
-        const facade = new ClientAdmFacade({
-            addClientUsecase: addUsecase,
-            findClientUsecase: undefined
-        })
+        const facade = ClientAdmFacadeFactory.create();
 
         const input = {
             id: "1",
@@ -48,13 +44,8 @@ describe("Client-adm facade test", () => {
         expect(result.updatedAt).toBeDefined();
     })
 
-    it("Should find a client", async () => {
-        const repository = new ClientRepository()
-        const findUsecase = new FindClientUsecase(repository);
-        const facade = new ClientAdmFacade({
-            addClientUsecase: undefined,
-            findClientUsecase: findUsecase,
-        })
+    it("Should find a client", async () => {        
+        const facade = ClientAdmFacadeFactory.create();
         const input = {
           id: "1",
           name: "Client 1",
