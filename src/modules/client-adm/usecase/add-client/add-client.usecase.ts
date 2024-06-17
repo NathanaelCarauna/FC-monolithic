@@ -8,7 +8,8 @@ export default class AddClientUsecase implements UseCaseInterface {
   constructor(private _repository: ClientGateway) {}
     
   async execute(input: AddClientInputDto): Promise<AddClientOutputDto> {
-        const props = {            
+        const props = {     
+            id: new Id(input.id || new Id().id ),
             name: input.name,
             email: input.email,
             address: input.address
