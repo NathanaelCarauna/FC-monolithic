@@ -1,5 +1,9 @@
+import Id from "../../../../@shared/domain/value-object/id.value-object";
+import Product from "../../product.entity";
 import { PlaceOrderInputDto } from "./place-order.dto";
 import PlaceOrderUsecase from "./place-order.usecase";
+
+const mockDate = new Date(2000, 1, 1)
 
 describe("PlaceOrder usecase unit test", () => {
   describe("Execute method", () => {
@@ -111,4 +115,56 @@ describe("PlaceOrder usecase unit test", () => {
       expect(mockProductFacade.checkStock).toHaveBeenCalledTimes(5);
     });
   });
+
+  describe("getProducts method", () => {
+    beforeAll(() => {
+      jest.useFakeTimers();
+      jest.setSystemTime(mockDate);
+    })
+
+    afterAll(() => {
+      jest.useRealTimers();
+    })
+
+    //@ts-expect-error - no params in constructor
+    const placeOrderUsecase = new PlaceOrderUsecase();
+
+    it("Should throw an error when product not found", async () => {
+      const mockCatalogFacade = {
+        find: jest.fn().mockResolvedValue(null),
+      }
+
+      //@ts-expect-error - force set catalogFacade
+      placeOrderUsecase["_catalogFacade"] = mockCatalogFacade;
+
+      await expect(placeOrderUsecase["getProduct"]("0")).rejects.toThrow(
+        new Error("Product not found")
+      )
+    })
+
+    it("Should return a product", async () => {
+      const mockCatalogFacade = {
+        find: jest.fn().mockResolvedValue({
+          id: "0",
+          name: "Product 0",
+          description: "Product 0 description",
+          salesPrice: 0,
+        }),
+      };
+
+      //@ts-expect-error - force set catalogFacade
+      placeOrderUsecase["_catalogFacade"] = mockCatalogFacade;
+
+      await expect(placeOrderUsecase["getProduct"]("0")).resolves.toEqual(
+        new Product({
+          id: new Id("0"),
+          name: "Product 0",
+          description: "Product 0 description",
+          salesPrice: 0
+        })
+      )
+
+      expect(mockCatalogFacade.find).toHaveBeenCalledTimes(1)
+    });
+  })
 });
