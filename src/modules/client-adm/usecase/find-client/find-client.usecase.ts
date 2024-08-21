@@ -8,12 +8,18 @@ export default class FindClientUsecase implements UseCaseInterface {
   async execute(input: FindClientInputDto): Promise<FindClientOutputDto> {
     const result = await this._repository.find(input.id);
     return {
-        id: result.id.id,
-        name: result.name,
-        email: result.email,
-        address: result.address,
-        updatedAt: result.updatedAt,
-        createdAt: result.createdAt,
-    }
+      id: result.id.id,
+      name: result.name,
+      email: result.email,
+      street: result.street,
+      document: result.document,
+      city: result.city,
+      complement: result.complement,
+      zipCode: result.zipCode,
+      number: result.number,
+      state: result.state,
+      updatedAt: result.updatedAt,
+      createdAt: result.createdAt,
+    };
   }
 }

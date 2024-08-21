@@ -6,13 +6,19 @@ import { ClientModel } from "./client.model";
 export default class ClientRepository implements ClientGateway {
   async add(client: Client): Promise<void> {
     await ClientModel.create({
-        id: client.id.id,
-        name: client.name,
-        email: client.email,
-        address: client.address,
-        createdAt: client.createdAt,
-        updatedAt: client.updatedAt
-    })
+      id: client.id.id,
+      name: client.name,
+      email: client.email,
+      street: client.street,
+      document: client.document,
+      city: client.city,
+      complement: client.complement,
+      zipCode: client.zipCode,
+      number: client.number,
+      state: client.state,
+      createdAt: client.createdAt,
+      updatedAt: client.updatedAt,
+    });
   }
 
   async find(id: string): Promise<Client> {
@@ -26,7 +32,13 @@ export default class ClientRepository implements ClientGateway {
       id: new Id(client.id),
       name: client.name,
       email: client.email,
-      address: client.address,
+      street: client.street,
+      document: client.document,
+      city: client.city,
+      complement: client.complement,
+      zipCode: client.zipCode,
+      number: client.number,
+      state: client.state,
     });
   }
 }

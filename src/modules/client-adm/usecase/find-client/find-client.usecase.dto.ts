@@ -6,7 +6,13 @@ export interface FindClientOutputDto {
   id: string;
   name: string;
   email: string;
-  address: string;
+  document: string;
+  city: string;
+  complement: string;
+  zipCode: string;
+  number: string;
+  state: string;
+  street: string;
   createdAt: Date;
   updatedAt: Date;
 }
