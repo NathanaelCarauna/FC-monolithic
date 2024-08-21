@@ -1,14 +1,14 @@
-import UseCaseInterface from "../../../../@shared/domain/usecase/use-case.interface";
-import Id from "../../../../@shared/domain/value-object/id.value-object";
-import ClientAdmFacadeInterface from "../../../../client-adm/facade/client-adm.facade.interface";
-import InvoiceFacadeInterface from "../../../../invoice/facade/facade.interface";
-import PaymentFacadeInterface from "../../../../payment/facade/facade.interface";
-import ProductAdmFacadeInterface from "../../../../product-adm/facade/product-adm.facade.interface";
-import StoreCatalogFacadeInterface from "../../../../store-catalog/facade/store-catalog.facade.interface";
-import CheckoutGateway from "../../../gateway/checkout.gateway";
-import Client from "../../client.entity";
-import Order from "../../order.entity";
-import Product from "../../product.entity";
+import UseCaseInterface from "../../../@shared/domain/usecase/use-case.interface";
+import Id from "../../../@shared/domain/value-object/id.value-object";
+import ClientAdmFacadeInterface from "../../../client-adm/facade/client-adm.facade.interface";
+import InvoiceFacadeInterface from "../../../invoice/facade/facade.interface";
+import PaymentFacadeInterface from "../../../payment/facade/facade.interface";
+import ProductAdmFacadeInterface from "../../../product-adm/facade/product-adm.facade.interface";
+import StoreCatalogFacadeInterface from "../../../store-catalog/facade/store-catalog.facade.interface";
+import CheckoutGateway from "../../gateway/checkout.gateway";
+import Client from "../../domain/client.entity";
+import Order from "../../domain/order.entity";
+import Product from "../../domain/product.entity";
 import { PlaceOrderInputDto, PlaceOrderOutputDto } from "./place-order.dto";
 
 export default class PlaceOrderUsecase implements UseCaseInterface {
@@ -37,6 +37,7 @@ export default class PlaceOrderUsecase implements UseCaseInterface {
 
   async execute(input: PlaceOrderInputDto): Promise<PlaceOrderOutputDto> {
     //Buscar o cliente. Caso não encontre -> client not found
+    console.log(`Buscando cliente com ID: ${input.clientId}`);
     const client = await this._clientFacade.find({ id: input.clientId });
     if (!client) {
       throw new Error("Client not found");
@@ -94,7 +95,7 @@ export default class PlaceOrderUsecase implements UseCaseInterface {
 
     //mudar status da ordem para approved
     payment.status === "approved" && order.aproved();
-    this._repository.addOrder(order);
+    await this._repository.addOrder(order);
 
     //retornar DTO
     return {

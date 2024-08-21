@@ -25,7 +25,7 @@ export default class AddClientUsecase implements UseCaseInterface {
     };
 
     const client = new Client(props);
-    this._repository.add(client);
+    await this._repository.add(client);
 
     return {
       id: client.id.id,

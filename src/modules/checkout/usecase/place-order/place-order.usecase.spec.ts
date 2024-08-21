@@ -1,6 +1,6 @@
 import { fn } from "sequelize";
-import Id from "../../../../@shared/domain/value-object/id.value-object";
-import Product from "../../product.entity";
+import Id from "../../../@shared/domain/value-object/id.value-object";
+import Product from "../../domain/product.entity";
 import { PlaceOrderInputDto } from "./place-order.dto";
 import PlaceOrderUsecase from "./place-order.usecase";
 
