@@ -7,6 +7,7 @@ import { productRoute } from "./routes/product.route";
 import OrderModel from "../../modules/checkout/repository/order.model";
 import InvoiceModel from "../../modules/invoice/repository/invoice.model";
 import { checkoutRoute } from "./routes/checkout.route";
+import { invoiceRoute } from "./routes/invoice.route";
 
 export const app: Express = express();
 app.use(express.json());
@@ -14,7 +15,7 @@ app.use("/clients", clientRoute)
 app.use("/products", productRoute)
 
 app.use("/checkout", checkoutRoute)
-// app.use("/invoice")
+app.use("/invoice", invoiceRoute)
 
 export let sequelize: Sequelize;
 
