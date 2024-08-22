@@ -25,8 +25,6 @@ describe("E2E test for client", () => {
       zipCode: "000",
     });
 
-    expect(response.status).toBe(201);
-    const clientInDb = await ClientModel.findOne({ where: { id: "1c" } });
-    // expect(clientInDb).not.toBeNull();
+    expect(response.status).toBe(201);    
   });
 });

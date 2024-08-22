@@ -2,12 +2,15 @@ import express, { Express } from "express";
 import { clientRoute } from "./routes/client.route";
 import { Sequelize } from "sequelize-typescript";
 import { ClientModel } from "../../modules/client-adm/repository/client.model";
-import { ProductModel } from "../../modules/product-adm/repository/product.model";
+
 import { productRoute } from "./routes/product.route";
 import OrderModel from "../../modules/checkout/repository/order.model";
 import InvoiceModel from "../../modules/invoice/repository/invoice.model";
 import { checkoutRoute } from "./routes/checkout.route";
 import { invoiceRoute } from "./routes/invoice.route";
+import CatalogProductModel from "../../modules/store-catalog/repository/product.model";
+import { ProductModel } from "../../modules/product-adm/repository/product.model";
+import TransactionModel from "../../modules/payment/repository/transaction.model";
 
 export const app: Express = express();
 app.use(express.json());
@@ -25,7 +28,7 @@ async function setupDb() {
         storage: ':memory:',
         logging: false,
     })
-    await sequelize.addModels([ClientModel, ProductModel, OrderModel, InvoiceModel])
+    await sequelize.addModels([ClientModel, CatalogProductModel, OrderModel, InvoiceModel, ProductModel, TransactionModel])
     await sequelize.sync();
 }
 

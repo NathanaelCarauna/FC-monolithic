@@ -16,6 +16,7 @@ productRoute.post("/", async (req: Request, res: Response) => {
         await productFacade.addProduct(input);
         res.status(201).send()
     } catch (error) {
+        console.log(error)
         res.status(500).send(error)
     }
 })

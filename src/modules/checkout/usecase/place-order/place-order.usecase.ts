@@ -10,6 +10,7 @@ import Client from "../../domain/client.entity";
 import Order from "../../domain/order.entity";
 import Product from "../../domain/product.entity";
 import { PlaceOrderInputDto, PlaceOrderOutputDto } from "./place-order.dto";
+import { ClientModel } from "../../../client-adm/repository/client.model";
 
 export default class PlaceOrderUsecase implements UseCaseInterface {
   private _clientFacade: ClientAdmFacadeInterface;
@@ -39,6 +40,7 @@ export default class PlaceOrderUsecase implements UseCaseInterface {
     //Buscar o cliente. Caso não encontre -> client not found
     console.log(`Buscando cliente com ID: ${input.clientId}`);
     const client = await this._clientFacade.find({ id: input.clientId });
+
     if (!client) {
       throw new Error("Client not found");
     }
@@ -62,9 +64,10 @@ export default class PlaceOrderUsecase implements UseCaseInterface {
     //Criar o objeto da order (client, products)
     const order = new Order({
       client: myClient,
-      products,
+      products: products,
     });
 
+    console.log("Total: " + order.total)
     //Processpayment ->
     const payment = await this._paymentFacade.process({
       orderId: order.id.id,
